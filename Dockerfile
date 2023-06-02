@@ -9,6 +9,8 @@ RUN mkdir /buck && chown buck /buck
 USER buck
 
 # Build buck
+# We could just clode because I don't expect buck to be updated in this repository
+# ToDo: move to buck2
 RUN git clone https://github.com/facebook/buck.git /buck/
 RUN cd /buck && ant
 

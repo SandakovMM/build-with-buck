@@ -3,15 +3,12 @@ name: 'Build with BUCK'
 description: 'Build some buck project'
 inputs:
   command:
-    description: 'Whitch command buck should run'
+    description: 'Which command buck should run'
     required: true
     default: 'build'
   target:
     description: 'The target to build'
     required: true
-outputs:
-  time: artifact
-    description: 'Result of the build'
 runs:
   using: 'docker'
   image: 'Dockerfile'

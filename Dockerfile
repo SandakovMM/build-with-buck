@@ -3,7 +3,7 @@ FROM openjdk:8
 MAINTAINER mmsandakov@gmail.com
 
 # Prepare environment
-RUN apt-get update && apt-get install -y git ant build-essential gcc python python-dev python3.6 python3.6-dev python3-distutils
+RUN apt-get update && apt-get install -y git ant build-essential gcc python python-dev python3.6 python3-distutils
 RUN useradd -m -s /bin/false buck
 RUN mkdir /buck && chown buck /buck
 USER buck

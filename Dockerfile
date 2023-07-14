@@ -24,6 +24,8 @@ USER root
 RUN curl https://pyenv.run | bash
 ENV PATH="/root/.pyenv/bin:$PATH"
 RUN eval "$(pyenv init -)" && eval "$(pyenv virtualenv-init -)" && pyenv install 3.6.12 && pyenv global 3.6.12
+# A little hack to avoid all tihs .pyenv pathes in .buckconfig files. Looks not so bad I suppose
+RUN ln -sf /root/.pyenv/shims/python3.6 /usr/bin/python3.6
 
 RUN ln -sf /buck/bin/buck /usr/bin/
 

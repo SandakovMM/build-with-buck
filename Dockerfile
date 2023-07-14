@@ -11,8 +11,8 @@ USER buck
 # Build buck
 # We could just clode because I don't expect buck to be updated in this repository
 # ToDo: move to buck2
-RUN git clone https://github.com/facebook/buck.git /buck/
-RUN cd /buck && ant
+RUN git clone https://github.com/facebook/buck.git /buck
+RUN cd /buck && git checkout v2022.05.05.01 && ant
 
 # We shoul return to root because github actions expects it
 USER root

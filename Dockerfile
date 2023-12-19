@@ -14,18 +14,7 @@ USER buck
 RUN git clone https://github.com/facebook/buck.git /buck
 RUN cd /buck && git checkout v2022.05.05.01 && ant
 
-# We shoul return to root because github actions expects it
 USER root
-
-# Make sure we have exactly python 3.6 installed. Because I need this version of python for my projects.
-# You could freely change it to any other version. Or remove pyenv at all if you fine
-# with the default python version (3.9 for this container).
-# ToDo: find a way to configure python version from an action configuration
-RUN curl https://pyenv.run | bash
-ENV PATH="/root/.pyenv/bin:$PATH"
-RUN eval "$(pyenv init -)" && eval "$(pyenv virtualenv-init -)" && pyenv install 3.6.12 && pyenv global 3.6.12
-# A little hack to avoid all tihs .pyenv pathes in .buckconfig files. Looks not so bad I suppose
-RUN ln -sf /root/.pyenv/shims/python3.6 /usr/bin/python3.6
 
 RUN ln -sf /buck/bin/buck /usr/bin/
 
@@ -36,6 +25,24 @@ RUN adduser --disabled-password --gecos "" --uid 1001 runner \
     && usermod -aG docker runner \
     && echo "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers \
     && echo "Defaults env_keep += \"DEBIAN_FRONTEND\"" >> /etc/sudoers
+
+USER runner
+
+ENV HOME /home/runner
+ENV PYENV_ROOT $HOME/.pyenv
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+# Make sure we have exactly python 3.6 installed. Because I need this version of python for my projects.
+# You could freely change it to any other version. Or remove pyenv at all if you fine
+# with the default python version (3.9 for this container).
+# ToDo: find a way to configure python version from an action configuration
+RUN curl https://pyenv.run | bash
+RUN pyenv install 3.6.12
+RUN pyenv global 3.6.12
+
+USER root
+# A little hack to avoid all tihs .pyenv pathes in .buckconfig files. Looks not so bad I suppose
+RUN ln -sf $HOME/.pyenv/shims/python3.6 /usr/bin/python3.6
 
 USER runner
 

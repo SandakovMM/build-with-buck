@@ -29,4 +29,14 @@ RUN ln -sf /root/.pyenv/shims/python3.6 /usr/bin/python3.6
 
 RUN ln -sf /buck/bin/buck /usr/bin/
 
+# Use runner user to make sure we work as files owner (default github action user)
+RUN adduser --disabled-password --gecos "" --uid 1001 runner \
+    && groupadd docker --gid 123 \
+    && usermod -aG sudo runner \
+    && usermod -aG docker runner \
+    && echo "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers \
+    && echo "Defaults env_keep += \"DEBIAN_FRONTEND\"" >> /etc/sudoers
+
+USER runner
+
 ENTRYPOINT ["/usr/bin/buck"]

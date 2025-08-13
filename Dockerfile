@@ -32,13 +32,13 @@ ENV HOME /home/runner
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
-# Make sure we have exactly python 3.6.9 installed. Because I need this version of python for my projects.
+# Make sure we have exactly python 3.6.8 installed. Because I need this version of python for my projects.
 # You could freely change it to any other version. Or remove pyenv at all if you fine
 # with the default python version (3.9 for this container).
 # ToDo: find a way to configure python version from an action configuration
 RUN curl https://pyenv.run | bash
-RUN pyenv install 3.6.9
-RUN pyenv global 3.6.9
+RUN pyenv install 3.6.8
+RUN pyenv global 3.6.8
 
 USER root
 # A little hack to avoid all tihs .pyenv pathes in .buckconfig files. Looks not so bad I suppose

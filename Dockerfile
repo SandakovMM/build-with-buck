@@ -4,7 +4,7 @@
 FROM msandakov/buck-ubt22:1.0
 
 # Prepare environment
-RUN apt update && apt install -y git build-essential gcc python2 python3 python3-dev zlib1g-dev openssl libssl-dev curl 
+RUN apt update && apt install -y git build-essential gcc clang python2 python3 python3-dev zlib1g-dev openssl libssl-dev curl 
 
 # Use runner user to make sure we work as files owner (default github action user)
 RUN adduser --disabled-password --gecos "" --uid 1001 runner \
@@ -25,7 +25,8 @@ ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 # with the default python version (3.9 for this container).
 # ToDo: find a way to configure python version from an action configuration
 RUN curl https://pyenv.run | bash
-RUN pyenv install 3.6.8
+# We want to use clang because modern gcc work bad with outrated python versions
+RUN CC=clang pyenv install 3.6.8
 RUN pyenv global 3.6.8
 
 USER root

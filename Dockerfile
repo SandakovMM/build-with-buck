@@ -6,7 +6,7 @@ FROM msandakov/buck-ubt22:1.0
 # Prepare environment
 RUN apt update && apt install -y git build-essential gcc clang \
     python2 python3 python3-dev zlib1g-dev openssl libssl-dev curl \
-    libbz2-dev liblzma-dev liblzma-dev libsqlite3-dev libreadline-dev
+    libbz2-dev liblzma-dev libsqlite3-dev libreadline-dev
 
 # Use runner user to make sure we work as files owner (default github action user)
 RUN adduser --disabled-password --gecos "" --uid 1001 runner \

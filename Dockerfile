@@ -4,7 +4,9 @@
 FROM msandakov/buck-ubt22:1.0
 
 # Prepare environment
-RUN apt update && apt install -y git build-essential gcc clang python2 python3 python3-dev zlib1g-dev openssl libssl-dev curl 
+RUN apt update && apt install -y git build-essential gcc clang \
+    python2 python3 python3-dev zlib1g-dev openssl libssl-dev curl \
+    libbz2-dev liblzma-dev liblzma-dev libsqlite3-dev libreadline-dev
 
 # Use runner user to make sure we work as files owner (default github action user)
 RUN adduser --disabled-password --gecos "" --uid 1001 runner \
@@ -26,8 +28,8 @@ ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 # ToDo: find a way to configure python version from an action configuration
 RUN curl https://pyenv.run | bash
 # We want to use clang because modern gcc work bad with outrated python versions
-RUN CC=clang pyenv install 3.6.8
-RUN pyenv global 3.6.8
+RUN CC=clang pyenv install 3.6.15
+RUN pyenv global 3.6.15
 
 USER root
 # A little hack to avoid all tihs .pyenv pathes in .buckconfig files. Looks not so bad I suppose
